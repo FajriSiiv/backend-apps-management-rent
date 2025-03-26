@@ -68,7 +68,6 @@ export const loginUser = async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: "Username atau password salah" });
     }
-
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
       return res.status(401).json({ message: "Username atau password salah" });
@@ -81,6 +80,7 @@ export const loginUser = async (req, res) => {
       { expiresIn: "1h" }
     );
 
+
     // Simpan token di cookie
     res.cookie("token", token, {
       httpOnly: true,
@@ -88,7 +88,7 @@ export const loginUser = async (req, res) => {
       sameSite: "Strict",
     });
 
-    res.json({ message: "Login berhasil" });
+    res.json({ message: "Login berhasil", user });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -105,7 +105,6 @@ export const logoutUser = async (req, res) => {
 
   res.clearCookie("_csrf", { httpOnly: true, secure: true, sameSite: "Strict" });
 
-  console.log("Cookies setelah logout:", req.cookies);
 
   res.json({ message: "Logout berhasil" });
 };

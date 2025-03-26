@@ -71,19 +71,35 @@ Aplikasi ini adalah sistem manajemen kos/kontrakan berbasis web yang memungkinka
 
 ### 2️⃣ Manajemen Kos & Kamar
 
-- Pemilik kos dapat menambah, mengedit, dan menghapus properti kos
-- Penyewa dapat melihat daftar kos & detail kamar
+[✅] Tambah Kos → Pemilik bisa menambah kos baru.
+
+[✅] Lihat Daftar Kos → Penyewa bisa melihat semua kos.
+
+[✅] Detail Kos → Penyewa bisa melihat informasi kos tertentu.
+
+[✅] Tambah/Edit Kamar → Pemilik bisa menambah atau mengedit kamar dalam kos.
+
+[✅] Hapus Kos → Menghapus kos tertentu.
 
 ### 3️⃣ Booking & Pembayaran
 
-- Penyewa dapat memesan kamar
-- Pembayaran otomatis dengan Midtrans/Xendit
-- Status booking (pending, diterima, ditolak)
+[✅] Booking Kamar → Penyewa bisa memesan kamar.
 
-### 4️⃣ Notifikasi & Reminder Pembayaran
+[✅] Cek Status Booking → Lihat apakah booking sudah dikonfirmasi.
 
-- Email & WhatsApp reminder untuk jatuh tempo pembayaran
-- Notifikasi real-time untuk pemilik kos
+[✅] Batal Booking → Penyewa bisa membatalkan booking sebelum pembayaran.
+
+### 4️⃣ Fitur Pembayaran
+
+[✅] Buat Pembayaran → Penyewa membayar sewa kamar.
+
+[✅] Cek Riwayat Pembayaran → Melihat semua pembayaran yang sudah dilakukan.
+
+5️⃣ Fitur Notifikasi & Ulasan
+
+[✅] Kirim Notifikasi → Pemilik kos mendapat notifikasi saat ada booking baru.
+
+[✅] Ulasan Kos → Penyewa bisa memberikan rating & review terhadap kos.
 
 ## 📮 API Endpoint
 
