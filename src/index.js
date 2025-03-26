@@ -8,7 +8,7 @@ dotenv.config();
 
 const syncDatabase = async () => {
   try {
-    await db.sync({ alter: true });
+    await db.sync({ force: true });
     console.log("Database & tabel telah sinkron!");
   } catch (error) {
     console.error("Gagal sinkronisasi database:", error);
@@ -33,6 +33,6 @@ app.use(router);
 
 
 app.listen(PORT, async () => {
-  // await syncDatabase();
+  await syncDatabase();
   console.log(`Server running on port ${PORT}`);
 });
