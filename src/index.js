@@ -7,7 +7,6 @@ import csrfMiddleware from "./middleware/csrf.js";
 
 import User from "./model/users.js";
 import Kos from "./model/kos.js";
-import Room from "./model/room.js";
 import Booking from "./model/booking.js";
 import Payment from "./model/payment.js";
 

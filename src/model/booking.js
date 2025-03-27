@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import db from "../config/db.js";
 import User from "./users.js";
-import Room from "./room.js";
+import Kos from "./kos.js";
 
 const Booking = db.define("Booking", {
   id: {
@@ -17,21 +17,32 @@ const Booking = db.define("Booking", {
       key: "id",
     },
   },
-  room_id: {
+  kos_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: Room,
+      model: Kos,
       key: "id",
     },
   },
   start_date: {
     type: DataTypes.DATE,
     allowNull: false,
+    validate: {
+      isDate: true,
+    },
   },
   end_date: {
     type: DataTypes.DATE,
     allowNull: false,
+    validate: {
+      isDate: true,
+      isAfterStartDate(value) {
+        if (value <= this.start_date) {
+          throw new Error("End date harus setelah start date");
+        }
+      },
+    },
   },
   status: {
     type: DataTypes.ENUM("pending", "paid", "canceled"),
@@ -40,6 +51,6 @@ const Booking = db.define("Booking", {
 });
 
 Booking.belongsTo(User, { foreignKey: "user_id" });
-Booking.belongsTo(Room, { foreignKey: "room_id" });
+Booking.belongsTo(Kos, { foreignKey: "kos_id" });
 
 export default Booking;

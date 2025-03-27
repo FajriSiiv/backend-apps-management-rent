@@ -69,15 +69,13 @@ Aplikasi ini adalah sistem manajemen kos/kontrakan berbasis web yang memungkinka
 - Role-based access control (Admin & Penyewa)
 - Proteksi CSRF Token untuk endpoint login/logout
 
-### 2️⃣ Manajemen Kos & Kamar
+### 2️⃣ Manajemen Kos
 
 [✅] Tambah Kos → Pemilik bisa menambah kos baru.
 
 [✅] Lihat Daftar Kos → Penyewa bisa melihat semua kos.
 
 [✅] Detail Kos → Penyewa bisa melihat informasi kos tertentu.
-
-[✅] Tambah/Edit Kamar → Pemilik bisa menambah atau mengedit kamar dalam kos.
 
 [✅] Hapus Kos → Menghapus kos tertentu.
 
