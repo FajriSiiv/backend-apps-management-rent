@@ -4,11 +4,21 @@ import db from "./config/db.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import csrfMiddleware from "./middleware/csrf.js";
+
+import User from "./model/users.js";
+import Kos from "./model/kos.js";
+import Booking from "./model/booking.js";
+import Payment from "./model/payment.js";
+
 dotenv.config();
 
 const syncDatabase = async () => {
   try {
-    await db.sync({ force: true });
+    await db.sync({
+      alter: true
+      // , force: true
+
+    });
     console.log("Database & tabel telah sinkron!");
   } catch (error) {
     console.error("Gagal sinkronisasi database:", error);
@@ -21,7 +31,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(csrfMiddleware);
+// app.use(csrfMiddleware);
 
 
 
@@ -31,8 +41,7 @@ app.get("/api/csrf-token", (req, res) => {
 
 app.use(router);
 
-
+syncDatabase()
 app.listen(PORT, async () => {
-  await syncDatabase();
   console.log(`Server running on port ${PORT}`);
 });
