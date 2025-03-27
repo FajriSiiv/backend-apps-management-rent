@@ -28,7 +28,6 @@ const loginLimiter = rateLimit({
 export const registerUser = async (req, res) => {
   const { username, password, name, role } = req.body;
 
-  // Validasi input
   if (!username || !password || !name) {
     return res.status(400).json({ message: "Semua field wajib diisi" });
   }
@@ -38,21 +37,18 @@ export const registerUser = async (req, res) => {
   }
 
   try {
-    // Cek apakah username sudah ada
     const existingUser = await User.findOne({ where: { username } });
     if (existingUser) {
       return res.status(400).json({ message: "Username sudah digunakan" });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Simpan user ke database
     await User.create({
       username,
       password: hashedPassword,
       name,
-      role: role || "user", // Default ke "user" jika tidak diisi
+      role: role || "user",
     });
 
     res.status(201).json({ message: "User berhasil didaftarkan" });
@@ -74,7 +70,6 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ message: "Username atau password salah" });
     }
 
-    // Buat token JWT
     const token = jwt.sign(
       { id: user.id, username: user.username, role: user.role },
       process.env.JWT_SECRET,
@@ -82,7 +77,6 @@ export const loginUser = async (req, res) => {
     );
 
 
-    // Simpan token di cookie
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -96,7 +90,6 @@ export const loginUser = async (req, res) => {
 };
 
 
-// LOGOUT USER
 export const logoutUser = async (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,

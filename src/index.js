@@ -16,7 +16,7 @@ const syncDatabase = async () => {
   try {
     await db.sync({
       alter: true
-      // , force: true
+      // force: true
 
     });
     console.log("Database & tabel telah sinkron!");
