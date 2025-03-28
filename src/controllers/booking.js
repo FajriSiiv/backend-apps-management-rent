@@ -1,10 +1,10 @@
 import Booking from "../model/booking.js";
 import Kos from "../model/kos.js";
+import User from "../model/users.js";
 
 export const getBookings = async (req, res) => {
   try {
     const bookings = await Booking.findAll();
-
 
     res.status(200).json({ data: bookings })
   } catch (error) {
@@ -40,17 +40,17 @@ export const bookingKos = async (req, res) => {
       return res.status(400).json({ message: "Kos ini sudah penuh" });
     }
 
-    const existingBooking = await Booking.findOne({
-      where: {
-        kos_id,
-        start_date: { $lte: end_date },
-        end_date: { $gte: start_date },
-      },
-    });
+    // const existingBooking = await Booking.findOne({
+    //   where: {
+    //     kos_id,
+    //     start_date: { $lte: end_date },
+    //     end_date: { $gte: start_date },
+    //   },
+    // });
 
-    if (existingBooking) {
-      return res.status(400).json({ message: "Kos sudah dipesan pada tanggal tersebut" });
-    }
+    // if (existingBooking) {
+    //   return res.status(400).json({ message: "Kos sudah dipesan pada tanggal tersebut" });
+    // }
 
     const newBooking = await Booking.create({
       user_id,
@@ -69,15 +69,17 @@ export const bookingKos = async (req, res) => {
 
 export const cancelBooking = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { idBooking } = req.params;
     const user_id = req.user.id;
 
-    const booking = await Booking.findByPk(id);
+    const booking = await Booking.findByPk(idBooking, { include: Kos });
+    const kos = await Kos.findByPk(booking.kos_id, { include: User });
+
     if (!booking) {
       return res.status(404).json({ message: "Booking tidak ditemukan" });
     }
 
-    if (booking.user_id !== user_id) {
+    if (booking.user_id !== user_id && kos.User.role !== 'owner') {
       return res.status(403).json({ message: "Anda tidak berhak membatalkan booking ini" });
     }
 
@@ -117,6 +119,7 @@ export const updateBooking = async (req, res) => {
     if (req.user.role !== 'owner') {
       return res.status(404).json({ message: "Kamu bukanlah owner! Harus menjadi owner terlebih dahulu." });
     }
+
     if (booking.Ko.owner_id !== owner_id) {
       return res.status(403).json({ message: "Anda tidak memiliki kos ini" });
     }

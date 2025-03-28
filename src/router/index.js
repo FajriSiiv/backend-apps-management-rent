@@ -3,7 +3,9 @@ import { getUsers, loginLimiter, loginUser, logoutUser, registerUser, validateRe
 import checkNotLoggedIn from '../middleware/checkNotLogged.js';
 import { addKos, deleteKos, getAllKos, getKosById, updateKosById } from '../controllers/kos.js';
 import { authenticateUser } from '../middleware/authUser.js';
-import { bookingKos, getBookings, updateBooking } from '../controllers/booking.js';
+import { bookingKos, cancelBooking, getBookings, updateBooking } from '../controllers/booking.js';
+import { createPayment } from '../controllers/payment.js';
+
 const router = express.Router();
 
 const API_ROUTER = '/api/v1'
@@ -26,7 +28,11 @@ router.delete(API_ROUTER + '/kos/:id', authenticateUser, deleteKos)
 router.get(API_ROUTER + '/booking', getBookings)
 router.post(API_ROUTER + '/booking', authenticateUser, bookingKos)
 router.put(API_ROUTER + "/booking/:idBooking/paid", authenticateUser, updateBooking);
+router.delete(API_ROUTER + '/booking/:idBooking/cancel', authenticateUser, cancelBooking)
 
+
+// Payment Booking user
+router.put(API_ROUTER + "/payment/:idBooking/paid", authenticateUser, createPayment);
 
 export default router;
 

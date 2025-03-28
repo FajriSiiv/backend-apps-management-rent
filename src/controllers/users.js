@@ -83,7 +83,13 @@ export const loginUser = async (req, res) => {
       sameSite: "Strict",
     });
 
-    res.json({ message: "Login berhasil", user });
+    res.json({
+      message: "Login berhasil", user: {
+        user_id: user.id,
+        username: user.username,
+        role: user.role
+      }
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

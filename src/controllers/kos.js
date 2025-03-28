@@ -108,7 +108,6 @@ export const addKos = async (req, res) => {
       kos: newKos,
     });
   } catch (error) {
-    console.error("Error saat menambahkan kos:", error);
     res.status(500).json({ message: "Terjadi kesalahan server" });
   }
 }
