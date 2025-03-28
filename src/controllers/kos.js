@@ -30,7 +30,7 @@ export const getKosById = async (req, res) => {
 export const updateKosById = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, address, price, facilities, available } = req.body;
+    const { name, address, price, facilities, available, max_room } = req.body;
 
     const kos = await Kos.findByPk(id);
     if (!kos) {
@@ -41,7 +41,7 @@ export const updateKosById = async (req, res) => {
       return res.status(403).json({ message: "Anda tidak memiliki izin untuk mengupdate kos ini" });
     }
 
-    await kos.update({ name, address, price, facilities, available });
+    await kos.update({ name, address, price, facilities, available, max_room });
 
     res.status(200).json({ message: "Kos berhasil diperbarui", kos });
 
@@ -74,10 +74,9 @@ export const deleteKos = async (req, res) => {
 
 export const addKos = async (req, res) => {
   try {
-    const { name, address, price, facilities, available } = req.body;
+    const { name, address, price, facilities, available, max_room } = req.body;
     const userId = req.user.id;
 
-    // Cek apakah user(pemilik kos) ada
     const owner = await User.findByPk(userId);
     if (!owner) {
       return res.status(404).json({ message: "Owner tidak ditemukan" });
@@ -87,7 +86,12 @@ export const addKos = async (req, res) => {
       return res.status(404).json({ message: "Kamu bukanlah owner! Harus menjadi owner terlebih dahulu." });
     }
 
-    // res.send({ owner_id, name })
+
+    if (max_room === undefined) {
+      return res.status(404).json({ message: "Jumlah kamar harus di isi!" });
+    }
+
+
     const newKos = await Kos.create({
       owner_id: userId,
       name,
@@ -95,6 +99,7 @@ export const addKos = async (req, res) => {
       price,
       facilities,
       available,
+      max_room
     });
 
 
@@ -103,7 +108,6 @@ export const addKos = async (req, res) => {
       kos: newKos,
     });
   } catch (error) {
-    console.error("Error saat menambahkan kos:", error);
     res.status(500).json({ message: "Terjadi kesalahan server" });
   }
 }

@@ -36,12 +36,17 @@ const Kos = db.define("Kos", {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
   },
+  max_room: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 1,
+  },
 },
   {
     timestamps: true,
   }
 );
 
-Kos.belongsTo(User, { foreignKey: "owner_id", as: 'owner' });
+Kos.belongsTo(User, { foreignKey: "owner_id" });
 
 export default Kos;
